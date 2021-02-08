@@ -1,25 +1,39 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useEffect} from 'react'
+import Header from './components/Header/Header'
+import Landing from './pages/Landing/Landing'
+import {useDispatch, useSelector} from 'react-redux'
+import styles from './App.module.scss'
+import {requestConfig, requestPopularMovies, requestPopularTv, requestTopRatedMovies} from './redux/actions';
+import {getConfig} from './redux/selectors';
+import Loader from './components/common/Loader/Loader';
+import {Route} from 'react-router-dom';
+import MoviePage from './pages/MoviePage/MoviePage';
+import SearchPage from './pages/SearchPage/SearchPage';
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch()
+  const config = useSelector(getConfig)
+
+  useEffect(() => {
+    dispatch(requestConfig())
+    dispatch(requestPopularMovies())
+    dispatch(requestTopRatedMovies())
+    dispatch(requestPopularTv())
+  }, [dispatch])
+
+  if (!config) {
+    return <Loader/>
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+      <div className={styles.app}>
+        <Header/>
+        <Route exact path='/' render={() => <Landing />}/>
+        <Route path='/search' render={() => <SearchPage/>}/>
+        <Route path='/movie/:id' render={() => <MoviePage config={config} type='movie'/>}/>
+        <Route path='/tv/:id' render={() => <MoviePage config={config} type='tv'/>}/>
+      </div>
+  )
 }
 
-export default App;
+export default App

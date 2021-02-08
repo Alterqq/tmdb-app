@@ -1,0 +1,12 @@
+@import './src/styles/variables';
+
+@mixin contentWidth {
+  margin: auto 5%;
+}
+
+@mixin headerHeight {
+  position: absolute;
+  right: 0;
+  left: 0;
+  top: $headerHeight;
+}

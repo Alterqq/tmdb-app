@@ -1,0 +1,40 @@
+@import './src/styles/mixins';
+@import './src/styles/variables';
+
+.card {
+  display: flex;
+  flex-direction: column;
+  max-width: 150px;
+  animation-name: emergence;
+  animation-duration: 500ms;
+  min-height: 335px;
+
+  img {
+    height: 225px;
+    width: 150px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+  }
+
+  h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+  }
+
+  span {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);;
+  }
+}
+
+@keyframes emergence {
+  0% {
+
+    opacity: 0;
+  }
+  100% {
+
+    opacity: 1;
+  }
+}

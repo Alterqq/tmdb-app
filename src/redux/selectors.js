@@ -1,0 +1,12 @@
+export const getPopularMovies = state => state.popularMovies
+export const getPopularTv = state => state.popularTv
+export const getTopRatedMovies = state => state.topRatedMovies
+export const getMoviePage = state => state.moviePage
+export const getTvPage = state => state.tvPage
+export const getSearchedMovies = state => state.searchedMovies
+export const getSearchedTv = state => state.searchedTv
+export const getSearchValue = state => state.searchValue
+export const getPageCounter = state => state.pageCounter
+export const getIsFound = state => state.isFound
+export const getIsFetching = state => state.isFetching
+export const getConfig = state => state.config
