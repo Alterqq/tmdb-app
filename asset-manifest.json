@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/tmdb-app/static/css/main.38620c43.chunk.css",
+    "main.js": "/tmdb-app/static/js/main.d4bba4f2.chunk.js",
+    "main.js.map": "/tmdb-app/static/js/main.d4bba4f2.chunk.js.map",
+    "runtime-main.js": "/tmdb-app/static/js/runtime-main.4411276e.js",
+    "runtime-main.js.map": "/tmdb-app/static/js/runtime-main.4411276e.js.map",
+    "static/js/2.f141fb83.chunk.js": "/tmdb-app/static/js/2.f141fb83.chunk.js",
+    "static/js/2.f141fb83.chunk.js.map": "/tmdb-app/static/js/2.f141fb83.chunk.js.map",
+    "static/js/3.7788b6d2.chunk.js": "/tmdb-app/static/js/3.7788b6d2.chunk.js",
+    "static/js/3.7788b6d2.chunk.js.map": "/tmdb-app/static/js/3.7788b6d2.chunk.js.map",
+    "index.html": "/tmdb-app/index.html",
+    "static/css/main.38620c43.chunk.css.map": "/tmdb-app/static/css/main.38620c43.chunk.css.map",
+    "static/js/2.f141fb83.chunk.js.LICENSE.txt": "/tmdb-app/static/js/2.f141fb83.chunk.js.LICENSE.txt",
+    "static/media/logo.bf7f470b.svg": "/tmdb-app/static/media/logo.bf7f470b.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.4411276e.js",
+    "static/js/2.f141fb83.chunk.js",
+    "static/css/main.38620c43.chunk.css",
+    "static/js/main.d4bba4f2.chunk.js"
+  ]
+}
