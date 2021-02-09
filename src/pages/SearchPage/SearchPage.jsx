@@ -7,14 +7,14 @@ import {
   getPageCounter,
   getSearchedMovies,
   getSearchedTv,
-  getSearchValue
+  getSearchValue, getViewBtn
 } from '../../redux/selectors';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import {NavLink} from 'react-router-dom';
 import {
   clearPageCounter,
   clearSearchedMovies, clearSearchedTv,
-  searchMovies, searchTv, setNotFound,
+  searchMovies, searchTv, setNotFound, setViewBtn,
   updatePageCounter,
   updateSearchValue
 } from '../../redux/actions';
@@ -22,7 +22,7 @@ import {
 const SearchPage = () => {
   const dispatch = useDispatch()
   const [checked, setChecked] = useState(false)
-  const [viewBnt, setViewBnt] = useState(false)
+  const viewBtn = useSelector(getViewBtn)
   const [mode, setMode] = useState('movie')
   const [tempVal, setTempVal] = useState('')
   const searchValue = useSelector(getSearchValue)
@@ -43,7 +43,7 @@ const SearchPage = () => {
         dispatch(clearSearchedTv())
         dispatch(searchTv(checked, searchValue, page))
       }
-      setViewBnt(true)
+      dispatch(setViewBtn(true))
       dispatch(updatePageCounter())
     }
   }
@@ -64,7 +64,7 @@ const SearchPage = () => {
   const onMovieMode = () => {
     dispatch(clearSearchedTv())
     setMode('movie')
-    setViewBnt(false)
+    dispatch(setViewBtn(false))
     dispatch(setNotFound(true))
     dispatch(updateSearchValue(''))
     setChecked(false)
@@ -73,7 +73,7 @@ const SearchPage = () => {
   const onTvMode = () => {
     dispatch(clearSearchedMovies())
     setMode('tv')
-    setViewBnt(false)
+    dispatch(setViewBtn(false))
     dispatch(setNotFound(true))
     dispatch(updateSearchValue(''))
     setChecked(false)
@@ -127,7 +127,7 @@ const SearchPage = () => {
 
         }
         {!isFound && !isFetching && <p>По данному запросу ничего не найдено!</p>}
-        {viewBnt && isFound &&
+        {viewBtn && isFound &&
         <button disabled={isFetching} onClick={() => loadingMore(pageCounter)}>Загрузить еще</button>}
       </div>
 

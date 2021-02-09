@@ -1,5 +1,6 @@
 {
   "name": "tmdb-app",
+  "homepage": "http://alterqq.github.io/tmdb-app",
   "version": "0.1.0",
   "private": true,
   "dependencies": {

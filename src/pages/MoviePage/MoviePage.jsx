@@ -21,7 +21,7 @@ const MoviePage = ({config, type, ...props}) => {
       <div className={styles.moviePage}>
         <div className={styles.wrapper}>
           <img className={styles.background}
-               src={`${config.images.secure_base_url}${config.images.profile_sizes[3]}${type === 'movie'
+               src={`${config.images.secure_base_url}${config.images.profile_sizes[2]}${type === 'movie'
                    ? moviePage.backdrop_path
                    : tvPage.backdrop_path}`}
                alt='movie'/>
@@ -50,7 +50,7 @@ const MoviePage = ({config, type, ...props}) => {
               {type === 'tv' && tvPage.tagline && <p className={styles.tagline}>&laquo;{tvPage.tagline}&raquo;</p>}
 
               <h3>Обзор</h3>
-              <p>{type === 'movie' ? moviePage.overview : tvPage.overview}</p>
+              <p className={styles.review}>{type === 'movie' ? moviePage.overview : tvPage.overview}</p>
             </div>
           </div>
         </div>

@@ -10,3 +10,4 @@ export const getPageCounter = state => state.pageCounter
 export const getIsFound = state => state.isFound
 export const getIsFetching = state => state.isFetching
 export const getConfig = state => state.config
+export const getViewBtn = state => state.viewBtn

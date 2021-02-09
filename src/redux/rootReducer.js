@@ -10,7 +10,7 @@ import {
   CLEAR_SEARCHED_MOVIES,
   UPDATE_SEARCH_VALUE,
   UPDATE_PAGE_COUNTER,
-  CLEAR_PAGE_COUNTER, SET_NOT_FOUND, TOGGLE_IS_FETCHING, SEARCH_TV, CLEAR_SEARCHED_TV
+  CLEAR_PAGE_COUNTER, SET_NOT_FOUND, TOGGLE_IS_FETCHING, SEARCH_TV, CLEAR_SEARCHED_TV, TOGGLE_VIEW_BUTTON
 } from './types';
 
 const initialState = {
@@ -25,7 +25,8 @@ const initialState = {
   searchValue: '',
   pageCounter: 1,
   isFound: false,
-  isFetching: false
+  isFetching: false,
+  viewBtn: false,
 }
 
 const rootReducer = (state = initialState, action) => {
@@ -62,6 +63,8 @@ const rootReducer = (state = initialState, action) => {
       return {...state, isFetching: action.payload}
     case SEARCH_TV:
       return {...state, searchedTv: [...state.searchedTv, ...action.payload]}
+    case TOGGLE_VIEW_BUTTON:
+      return {...state, viewBtn: action.payload}
     default:
       return state
   }

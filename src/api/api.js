@@ -23,10 +23,10 @@ export const tmdbAPI = {
     return instance.get(`/tv/${id}?${API_KEY}&${LANGUAGE_RU}`).then(res => res.data)
   },
   searchMovies(adult = false, query = '', page = 1) {
-    return instance.get(`/search/movie/?${API_KEY}&${LANGUAGE_RU}&include_adult=${adult}&query=${query}&page=${page}`).then(res => res.data)
+    return instance.get(`/search/movie?${API_KEY}&${LANGUAGE_RU}&include_adult=${adult}&query=${query}&page=${page}`).then(res => res.data)
   },
   searchTv(adult = false, query = '', page = 1) {
-    return instance.get(`/search/tv/?${API_KEY}&${LANGUAGE_RU}&include_adult=${adult}&query=${query}&page=${page}`).then(res => res.data)
+    return instance.get(`/search/tv?${API_KEY}&${LANGUAGE_RU}&include_adult=${adult}&query=${query}&page=${page}`).then(res => res.data)
   },
   requestConfigAPI() {
     return instance.get(`/configuration?${API_KEY}`).then(res => res.data)

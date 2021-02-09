@@ -10,7 +10,7 @@ import {
   CLEAR_SEARCHED_MOVIES,
   UPDATE_SEARCH_VALUE,
   UPDATE_PAGE_COUNTER,
-  CLEAR_PAGE_COUNTER, SET_NOT_FOUND, TOGGLE_IS_FETCHING, SEARCH_TV, CLEAR_SEARCHED_TV
+  CLEAR_PAGE_COUNTER, SET_NOT_FOUND, TOGGLE_IS_FETCHING, SEARCH_TV, CLEAR_SEARCHED_TV, TOGGLE_VIEW_BUTTON
 } from './types';
 import {tmdbAPI} from '../api/api';
 
@@ -22,6 +22,7 @@ export const clearSearchedMovies = () => ({type: CLEAR_SEARCHED_MOVIES})
 export const clearSearchedTv = () => ({type: CLEAR_SEARCHED_TV})
 export const setNotFound = (payload) => ({type: SET_NOT_FOUND, payload})
 export const toggleIsFetching = (payload) => ({type: TOGGLE_IS_FETCHING, payload})
+export const setViewBtn = (payload) => ({type: TOGGLE_VIEW_BUTTON, payload})
 const requestPopularMoviesSuccess = payload => ({type: GET_POPULAR_MOVIES, payload})
 const requestPopularTvSuccess = payload => ({type: GET_POPULAR_TV, payload})
 const requestTopRatedMoviesSuccess = payload => ({type: GET_TOP_RATED_MOVIES, payload})
