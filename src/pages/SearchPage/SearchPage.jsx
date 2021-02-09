@@ -3,18 +3,18 @@ import styles from './SearchPage.module.scss'
 import {useDispatch, useSelector} from 'react-redux';
 import {
   getIsFetching,
-  getIsFound,
+  getIsFound, getMoviesTitles,
   getPageCounter,
   getSearchedMovies,
   getSearchedTv,
-  getSearchValue, getViewBtn
+  getSearchValue, getTempValue, getTvTitles, getViewBtn
 } from '../../redux/selectors';
 import MovieCard from '../../components/MovieCard/MovieCard';
-import {NavLink} from 'react-router-dom';
+import {Link, NavLink} from 'react-router-dom';
 import {
   clearPageCounter,
   clearSearchedMovies, clearSearchedTv,
-  searchMovies, searchTv, setNotFound, setViewBtn,
+  searchMovies, searchMoviesTitles, searchTv, searchTvTitles, setNotFound, setTempSearchValue, setViewBtn,
   updatePageCounter,
   updateSearchValue
 } from '../../redux/actions';
@@ -22,19 +22,23 @@ import {
 const SearchPage = () => {
   const dispatch = useDispatch()
   const [checked, setChecked] = useState(false)
+  const [vieDropdown, setViewDropdown] = useState(false)
   const viewBtn = useSelector(getViewBtn)
   const [mode, setMode] = useState('movie')
-  const [tempVal, setTempVal] = useState('')
+  const tempValue = useSelector(getTempValue)
   const searchValue = useSelector(getSearchValue)
   const pageCounter = useSelector(getPageCounter)
   const isFound = useSelector(getIsFound)
   const isFetching = useSelector(getIsFetching)
   const searchedMovies = useSelector(getSearchedMovies)
   const searchedTv = useSelector(getSearchedTv)
+  const moviesTitles = useSelector(getMoviesTitles)
+  const tvTitles = useSelector(getTvTitles)
 
   const onSearch = (page) => {
     if (searchValue.trim() !== '') {
-      setTempVal(searchValue)
+      dispatch(setTempSearchValue(searchValue))
+      setViewDropdown(false)
       dispatch(clearPageCounter())
       if (mode === 'movie') {
         dispatch(clearSearchedMovies())
@@ -51,13 +55,23 @@ const SearchPage = () => {
   const loadingMore = (pageNumber) => {
     dispatch(updatePageCounter())
     if (mode === 'movie') {
-      dispatch(searchMovies(checked, tempVal, pageNumber))
+      dispatch(searchMovies(checked, tempValue, pageNumber))
     } else {
-      dispatch(searchTv(checked, tempVal, pageNumber))
+      dispatch(searchTv(checked, tempValue, pageNumber))
     }
   }
-  const onUpdateSearchValue = (text) => {
+  const onUpdateSearchValue = (text, page) => {
     dispatch(updateSearchValue(text))
+    if (mode === 'movie') {
+      dispatch(searchMoviesTitles(text, page))
+    } else {
+      dispatch(searchTvTitles(text, page))
+    }
+    setViewDropdown(true)
+
+    if (!text) {
+      setViewDropdown(false)
+    }
   }
 
 
@@ -67,6 +81,7 @@ const SearchPage = () => {
     dispatch(setViewBtn(false))
     dispatch(setNotFound(true))
     dispatch(updateSearchValue(''))
+    setViewDropdown(false)
     setChecked(false)
   }
 
@@ -76,6 +91,7 @@ const SearchPage = () => {
     dispatch(setViewBtn(false))
     dispatch(setNotFound(true))
     dispatch(updateSearchValue(''))
+    setViewDropdown(false)
     setChecked(false)
   }
 
@@ -94,15 +110,31 @@ const SearchPage = () => {
             <span
                 className={`${styles.mode} ${mode === 'tv' && styles.active}`}
                 onClick={onTvMode}>сериалов</span></div>
-          <span onClick={() => onSearch(pageCounter)} className={`material-icons`}>search</span>
-          <input onKeyUp={event => {
-            if (event.key === 'Enter') onSearch(pageCounter)
-          }}
-                 value={searchValue}
-                 onChange={(e) => onUpdateSearchValue(e.target.value)}
-                 type="text"
-                 placeholder={'Введите запрос'}
+          <span onClick={() => onSearch(pageCounter)} className={`material-icons ${styles.searchBnt}`}>search</span>
+          <input
+              onKeyUp={event => {
+                if (event.key === 'Enter') onSearch(pageCounter)
+              }}
+              value={searchValue}
+              onChange={(e) => onUpdateSearchValue(e.target.value, 1)}
+              type="text"
+              placeholder={'Введите запрос'}
           />
+
+          {vieDropdown && <div className={styles.dropdown}>
+            {mode === 'movie' && moviesTitles.length && !isFetching ? moviesTitles.map(m => <Link
+                className={styles.item}
+                to={`movie/${m.id}`}
+            >{m.title}</Link>)
+            : mode === 'movie' && !moviesTitles.length && <span>Ничего не найдено</span>}
+            {mode === 'tv' && tvTitles.length && !isFetching ? tvTitles.map(m => <Link
+                className={styles.item}
+                to={`tv/${m.id}`}
+            >{m.title}</Link>)
+            : mode === 'tv' && !tvTitles.length && <span>Ничего не найдено</span>
+            }
+          </div>}
+
           <div className={styles.adult}>
             <label htmlFor='adult'>Показывать фильмы 18+</label>
             <input checked={checked} onChange={() => setChecked(!checked)} type="checkbox" id='adult'/></div>

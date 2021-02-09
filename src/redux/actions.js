@@ -10,7 +10,13 @@ import {
   CLEAR_SEARCHED_MOVIES,
   UPDATE_SEARCH_VALUE,
   UPDATE_PAGE_COUNTER,
-  CLEAR_PAGE_COUNTER, SET_NOT_FOUND, TOGGLE_IS_FETCHING, SEARCH_TV, CLEAR_SEARCHED_TV, TOGGLE_VIEW_BUTTON
+  CLEAR_PAGE_COUNTER,
+  SET_NOT_FOUND,
+  TOGGLE_IS_FETCHING,
+  SEARCH_TV,
+  CLEAR_SEARCHED_TV,
+  TOGGLE_VIEW_BUTTON,
+  SET_TEMP_SEARCH_VALUE, GET_MOVIES_TITLES, GET_TV_TITLES
 } from './types';
 import {tmdbAPI} from '../api/api';
 
@@ -23,6 +29,7 @@ export const clearSearchedTv = () => ({type: CLEAR_SEARCHED_TV})
 export const setNotFound = (payload) => ({type: SET_NOT_FOUND, payload})
 export const toggleIsFetching = (payload) => ({type: TOGGLE_IS_FETCHING, payload})
 export const setViewBtn = (payload) => ({type: TOGGLE_VIEW_BUTTON, payload})
+export const setTempSearchValue = (payload) => ({type: SET_TEMP_SEARCH_VALUE, payload})
 const requestPopularMoviesSuccess = payload => ({type: GET_POPULAR_MOVIES, payload})
 const requestPopularTvSuccess = payload => ({type: GET_POPULAR_TV, payload})
 const requestTopRatedMoviesSuccess = payload => ({type: GET_TOP_RATED_MOVIES, payload})
@@ -31,6 +38,8 @@ const requestTvSuccess = payload => ({type: GET_TV, payload})
 const searchMoviesSuccess = payload => ({type: SEARCH_MOVIES, payload})
 const searchTvSuccess = payload => ({type: SEARCH_TV, payload})
 const requestConfigSuccess = (payload) => ({type: SET_CONFIG, payload})
+const getMoviesTitlesSuccess = (payload) => ({type: GET_MOVIES_TITLES, payload})
+const getTvTitlesSuccess = (payload) => ({type: GET_TV_TITLES, payload})
 
 export const requestPopularMovies = (page) => async dispatch => {
   const popular = await tmdbAPI.requestPopularMovies(page)
@@ -60,6 +69,22 @@ export const searchMovies = (adult, query, page) => async dispatch => {
   }
   dispatch(toggleIsFetching(false))
 }
+
+export const searchMoviesTitles = (query, page) => async dispatch => {
+  dispatch(toggleIsFetching(true))
+  const movies = await tmdbAPI.searchMovies(false, query, page)
+  dispatch(getMoviesTitlesSuccess(movies.results))
+  dispatch(toggleIsFetching(false))
+}
+
+export const searchTvTitles = (query, page) => async dispatch => {
+  dispatch(toggleIsFetching(true))
+  const tv = await tmdbAPI.searchMovies(false, query, page)
+  dispatch(getTvTitlesSuccess(tv.results))
+  dispatch(toggleIsFetching(false))
+}
+
+
 export const requestMovie = (id) => async dispatch => {
   const movie = await tmdbAPI.requestMovie(id)
   dispatch(requestMovieSuccess(movie))

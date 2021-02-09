@@ -57,6 +57,42 @@
       }
     }
 
+    .dropdown {
+
+      position: absolute;
+      top: 80px;
+      right: 0;
+      left: 0;
+      border: 1px solid rgba(31, 32, 65, 0.25);
+      border-radius: 5px;
+      background-color: #fff;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+
+      span {
+        font: {
+          size: 16px;
+          weight: normal;
+        }
+        border-bottom: 1px solid rgba(31, 32, 65, 0.25);
+        padding: 10px 15px;
+      }
+      .item {
+        font: {
+          size: 16px;
+          weight: normal;
+        }
+        border-bottom: 1px solid rgba(31, 32, 65, 0.25);
+        padding: 10px 15px;
+        &:last-child {
+          border: none;
+        }
+        &:hover {
+          background-color: #17a93e69;
+        }
+      }
+    }
 
     .adult {
       display: flex;
@@ -76,7 +112,7 @@
       }
     }
 
-    span {
+    .searchBnt {
       position: absolute;
       right: 8px;
       top: 44px;

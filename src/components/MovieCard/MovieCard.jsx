@@ -13,13 +13,11 @@ const MovieCard = ({item, type}) => {
   }
   return (
       <div className={styles.card} onClick={onClear}>
-        <img src={item.poster_path ?`${config.images.secure_base_url}${config.images.poster_sizes[4]}${item.poster_path}` : defaultPoster} alt="movie"/>
+        <img
+            src={item.poster_path ? `${config.images.secure_base_url}${config.images.poster_sizes[4]}${item.poster_path}` : defaultPoster}
+            alt="movie"/>
         <h3>{type === 'movie' ? item.title : item.name}</h3>
-        <span>{
-          type === 'movie'
-              ? new Date(item.release_date).toLocaleDateString()
-              : new Date(item.first_air_date).toLocaleDateString()}
-        </span>
+        <span>Оценка: {item.vote_average.toFixed(2)}</span>
       </div>
   )
 }

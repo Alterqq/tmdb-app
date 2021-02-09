@@ -11,3 +11,6 @@ export const getIsFound = state => state.isFound
 export const getIsFetching = state => state.isFetching
 export const getConfig = state => state.config
 export const getViewBtn = state => state.viewBtn
+export const getTempValue = state => state.tempValue
+export const getMoviesTitles = state => state.moviesTitles
+export const getTvTitles = state => state.tvTitles
