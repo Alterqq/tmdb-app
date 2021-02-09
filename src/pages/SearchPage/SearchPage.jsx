@@ -14,7 +14,7 @@ import {NavLink} from 'react-router-dom';
 import {
   clearPageCounter,
   clearSearchedMovies, clearSearchedTv,
-  searchMovies, searchTv,
+  searchMovies, searchTv, setNotFound,
   updatePageCounter,
   updateSearchValue
 } from '../../redux/actions';
@@ -22,8 +22,9 @@ import {
 const SearchPage = () => {
   const dispatch = useDispatch()
   const [checked, setChecked] = useState(false)
+  const [viewBnt, setViewBnt] = useState(false)
   const [mode, setMode] = useState('movie')
-  const [viewButton, setViewButton] = useState(true)
+  const [tempVal, setTempVal] = useState('')
   const searchValue = useSelector(getSearchValue)
   const pageCounter = useSelector(getPageCounter)
   const isFound = useSelector(getIsFound)
@@ -32,15 +33,17 @@ const SearchPage = () => {
   const searchedTv = useSelector(getSearchedTv)
 
   const onSearch = (page) => {
-    dispatch(clearSearchedMovies())
     if (searchValue.trim() !== '') {
+      setTempVal(searchValue)
       dispatch(clearPageCounter())
       if (mode === 'movie') {
+        dispatch(clearSearchedMovies())
         dispatch(searchMovies(checked, searchValue, page))
       } else {
+        dispatch(clearSearchedTv())
         dispatch(searchTv(checked, searchValue, page))
       }
-      setViewButton(true)
+      setViewBnt(true)
       dispatch(updatePageCounter())
     }
   }
@@ -48,34 +51,40 @@ const SearchPage = () => {
   const loadingMore = (pageNumber) => {
     dispatch(updatePageCounter())
     if (mode === 'movie') {
-      dispatch(searchMovies(checked, searchValue, pageNumber))
+      dispatch(searchMovies(checked, tempVal, pageNumber))
     } else {
-      dispatch(searchTv(checked, searchValue, pageNumber))
+      dispatch(searchTv(checked, tempVal, pageNumber))
     }
   }
   const onUpdateSearchValue = (text) => {
     dispatch(updateSearchValue(text))
   }
 
-  useEffect(() => {
-    if (searchValue.trim() === '') {
-      setViewButton(false)
-    }
-  }, [searchValue])
 
   const onMovieMode = () => {
     dispatch(clearSearchedTv())
     setMode('movie')
+    setViewBnt(false)
+    dispatch(setNotFound(true))
     dispatch(updateSearchValue(''))
+    setChecked(false)
   }
 
   const onTvMode = () => {
     dispatch(clearSearchedMovies())
     setMode('tv')
+    setViewBnt(false)
+    dispatch(setNotFound(true))
     dispatch(updateSearchValue(''))
+    setChecked(false)
   }
 
+  useEffect(() => {
+    dispatch(setNotFound(true))
+  }, [dispatch])
+
   return (
+
       <div className={styles.search}>
         <div className={styles.input}>
           <div className={styles.searchMode}><h1>Поиск</h1>
@@ -96,10 +105,8 @@ const SearchPage = () => {
           />
           <div className={styles.adult}>
             <label htmlFor='adult'>Показывать фильмы 18+</label>
-            <input onChange={() => setChecked(!checked)} type="checkbox" id='adult'/></div>
+            <input checked={checked} onChange={() => setChecked(!checked)} type="checkbox" id='adult'/></div>
         </div>
-        {isFound && viewButton && !isFetching && <h1>Результаты поиска:</h1>}
-
         {mode === 'movie'
             ? <div className={styles.results}>
               {searchedMovies.map(m => <NavLink key={m.id} to={`movie/${m.id}`}>
@@ -116,11 +123,14 @@ const SearchPage = () => {
                     item={m}
                     type={mode}
                 /></NavLink>)}
-            </div>}
+            </div>
+
+        }
         {!isFound && !isFetching && <p>По данному запросу ничего не найдено!</p>}
-        {isFound && viewButton && !isFetching &&
+        {viewBnt && isFound &&
         <button disabled={isFetching} onClick={() => loadingMore(pageCounter)}>Загрузить еще</button>}
       </div>
+
   )
 }
 

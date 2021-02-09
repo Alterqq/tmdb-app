@@ -6,7 +6,7 @@ import styles from './App.module.scss'
 import {requestConfig, requestPopularMovies, requestPopularTv, requestTopRatedMovies} from './redux/actions';
 import {getConfig} from './redux/selectors';
 import Loader from './components/common/Loader/Loader';
-import {Route} from 'react-router-dom';
+import {Route, Switch} from 'react-router-dom';
 import MoviePage from './pages/MoviePage/MoviePage';
 import SearchPage from './pages/SearchPage/SearchPage';
 
@@ -28,10 +28,12 @@ const App = () => {
   return (
       <div className={styles.app}>
         <Header/>
-        <Route exact path='/' render={() => <Landing />}/>
-        <Route path='/search' render={() => <SearchPage/>}/>
-        <Route path='/movie/:id' render={() => <MoviePage config={config} type='movie'/>}/>
-        <Route path='/tv/:id' render={() => <MoviePage config={config} type='tv'/>}/>
+        <Switch>
+          <Route exact path='/' render={() => <Landing/>}/>
+          <Route path='/search' render={() => <SearchPage/>}/>
+          <Route path='/movie/:id' render={() => <MoviePage config={config} type='movie'/>}/>
+          <Route path='/tv/:id' render={() => <MoviePage config={config} type='tv'/>}/>
+        </Switch>
       </div>
   )
 }

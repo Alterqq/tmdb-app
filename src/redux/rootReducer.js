@@ -24,7 +24,7 @@ const initialState = {
   searchedTv: [],
   searchValue: '',
   pageCounter: 1,
-  isFound: true,
+  isFound: false,
   isFetching: false
 }
 
